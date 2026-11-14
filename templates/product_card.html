@@ -1,0 +1,13 @@
+<div class="card">
+  <a href="/products/{{ p.id }}">
+    <img src="/static/images/products/{{ p.image }}" alt="{{ p.name }}">
+    <h3>{{ p.name }}</h3>
+  </a>
+  <p class="muted">{{ p.brand.name }}</p>
+  <p class="price">{{ p.price|inr }}</p>
+  {% if p.in_stock %}
+    <span class="in">In stock</span>
+  {% else %}
+    <span class="out">Out of stock</span>
+  {% endif %}
+</div>

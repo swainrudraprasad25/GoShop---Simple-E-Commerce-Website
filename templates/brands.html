@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Brands{% endblock %}
+
+{% block content %}
+<h1>Brands</h1>
+<div class="grid">
+  {% for b in brands %}
+    <a href="/products?brand_id={{ b.id }}" class="card center">
+      <img src="/static/images/brands/{{ b.logo }}" alt="{{ b.name }}">
+      <h3>{{ b.name }}</h3>
+      <p class="muted">{{ b.description }}</p>
+      <p class="muted">{{ b.products|length }} products</p>
+    </a>
+  {% endfor %}
+</div>
+{% endblock %}

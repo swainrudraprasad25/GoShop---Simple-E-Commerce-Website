@@ -1,0 +1,74 @@
+{# Use the common layout (header, footer) from base.html #}
+{% extends "base.html" %}
+
+{# Text shown in the browser tab #}
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+
+{# Page heading, for example "All products" or "Electronics" #}
+<h1>{{ title }}</h1>
+
+
+{# ---------- PART 1: THE FILTER FORM ---------- #}
+{# "brands" is empty on the 404 page, so no form is shown there #}
+{% if brands %}
+
+<form action="{{ action }}" method="get" class="filters">
+
+  {# On the search page, keep the word the user searched for #}
+  {% if q %}
+    <input type="hidden" name="q" value="{{ q }}">
+  {% endif %}
+
+  {# Brand dropdown #}
+  <select name="brand_id">
+    <option value="">All brands</option>
+    {% for b in brands %}
+      {# "selected" keeps the chosen brand visible after clicking Apply #}
+      <option value="{{ b.id }}" {% if f.brand_id == b.id %}selected{% endif %}>
+        {{ b.name }}
+      </option>
+    {% endfor %}
+  </select>
+
+  {# Minimum price box #}
+  <input type="number" name="min_price" placeholder="Min price"
+         {% if f.min_price %}value="{{ f.min_price|int }}"{% endif %}>
+
+  {# Maximum price box #}
+  <input type="number" name="max_price" placeholder="Max price"
+         {% if f.max_price %}value="{{ f.max_price|int }}"{% endif %}>
+
+  {# Sort dropdown #}
+  <select name="sort">
+    <option value="">Default</option>
+    <option value="low_to_high" {% if f.sort == "price_asc" %}selected{% endif %}>Price: low to high</option>
+    <option value="high_to_low" {% if f.sort == "price_desc" %}selected{% endif %}>Price: high to low</option>
+  </select>
+
+  <button type="submit">Apply</button>
+</form>
+
+{% endif %}
+
+
+{# ---------- PART 2: THE PRODUCTS ---------- #}
+{% if products %}
+
+  <div class="grid">
+    {# Repeat for every product in the list #}
+    {% for p in products %}
+      {% include "product_card.html" %}
+    {% endfor %}
+  </div>
+
+{% else %}
+
+  {# The list is empty #}
+  <p>No products found.</p>
+  <a href="/products">Back to all products</a>
+
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}{{ p.name }}{% endblock %}
+
+{% block content %}
+
+<div class="detail">
+  <img src="/static/images/products/{{ p.image }}" alt="{{ p.name }}">
+
+  <div>
+    <h1>{{ p.name }}</h1>
+    <p class="muted">
+      Brand: <a href="/products?brand_id={{ p.brand.id }}">{{ p.brand.name }}</a> |
+      Category: <a href="/categories/{{ p.category.id }}">{{ p.category.name }}</a>
+    </p>
+
+    <p class="price big">{{ p.price|inr }}</p>
+
+    {% if p.in_stock %}
+      <p class="in">In stock ({{ p.stock_quantity }} available)</p>
+    {% else %}
+      <p class="out">Out of stock</p>
+    {% endif %}
+
+    <p>{{ p.description }}</p>
+  </div>
+</div>
+
+{% if related %}
+  <h2>Related products</h2>
+  <div class="grid">
+    {% for p in related %}
+      {% include "product_card.html" %}
+    {% endfor %}
+  </div>
+{% endif %}
+
+{% endblock %}

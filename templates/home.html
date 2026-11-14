@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}GoShop - Home{% endblock %}
+{% block content %}
+<div class="welcome">
+  <h1>Welcome to ShopKart</h1>
+  <p>Electronics, fashion, books and more.</p>
+</div>
+<h2>Shop by category</h2>
+<div class="grid" >
+    {% for c in categories %}
+    <a href="/categories/{{ c.id }}" class="card center">
+        <img src="/static/images/categories/{{ c.image }}" class="small" alt="{{ c.image }}">
+        <h3>{{ c.name }}</h3>
+        <p class="muted">{{ c.products | length }} products</p>
+    </a>
+    {% endfor %}
+    <h2>Featured products</h2>
+    <div class="grid">
+    {% for p in featured %}
+      {% include "product_card.html" %}
+    {% endfor %}
+</div>
+
+
+
+</div>
+{% endblock %}
